@@ -2,96 +2,110 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 class BarangController extends Controller
 {
-    private $listItem = [
-        ['code' => 'Brg_1', 'name' => 'Barang 1', 'deskripsi' => 'Barang Dagangan 1', 'stok' => '10', 'harga' => '127000'],
-        ['code' => 'Brg_2', 'name' => 'Barang 2', 'deskripsi' => 'Barang Dagangan 2', 'stok' => '20', 'harga' => '178000'],
-        ['code' => 'Brg_3', 'name' => 'Barang 3', 'deskripsi' => 'Barang Dagangan 3', 'stok' => '33', 'harga' => '188000'],
-        ['code' => 'Brg_4', 'name' => 'Barang 4', 'deskripsi' => 'Barang Dagangan 4', 'stok' => '56', 'harga' => '199990'],
-        ['code' => 'Brg_5', 'name' => 'Barang 5', 'deskripsi' => 'Barang Dagangan 5', 'stok' => '25', 'harga' => '188000'],
-        ['code' => 'Brg_6', 'name' => 'Barang 6', 'deskripsi' => 'Barang Dagangan 6', 'stok' => '14', 'harga' => '188000'],
-        ['code' => 'Brg_7', 'name' => 'Barang 7', 'deskripsi' => 'Barang Dagangan 7', 'stok' => '66', 'harga' => '188000'],
-        ['code' => 'Brg_8', 'name' => 'Barang 8', 'deskripsi' => 'Barang Dagangan 8', 'stok' => '22', 'harga' => '188000'],
-        ['code' => 'Brg_9', 'name' => 'Barang 9', 'deskripsi' => 'Barang Dagangan 9', 'stok' => '33', 'harga' => '188000'],
-        ['code' => 'Brg_10', 'name' => 'Barang 10', 'deskripsi' => 'Barang Dagangan 10', 'stok' => '33', 'harga' => '188000']];
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $listFromSession = session()->get('barang');
-        if (!$listFromSession) {
-            $list = collect($this->listItem);
-        } else {
-            $list = collect($listFromSession);
-        }
-
-        $listItem = $list->where('stok', '>', '15');
-
-        return view('barang.index', compact('listItem'));
+        $listBarang = Barang::where('stok', '>=', 15)->get();
+        return view('barang.index', compact('listBarang'));
     }
 
-    public function detail($code)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $listFromSession = session()->get('barang');
-        if (!$listFromSession) {
-            $listItem = $this->listItem;
-        } else {
-            $listItem = $listFromSession;
-        }
+        //
+    }
 
-        $collection = collect($listItem);
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     */
+    public function store(Request $request)
+    {
+        $barang = New Barang();
+        $barang->code = $request->input('code');
+        $barang->name = $request->input('name');
+        $barang->deskripsi = $request->input('deskripsi');
+        $barang->stok = $request->input('stok');
+        $barang->harga = $request->input('harga');
+        $barang->save();
 
-        $data = $collection->firstWhere('code', $code);
+        return \redirect('barang')->with('success', 'Tambah data berhasil');
+    }
 
-        $detail = [
-            'code' => $code,
-            'name' => $data['name'],
-            'deskripsi' => $data['deskripsi'],
-            'stok'=>$data['stok'],
-            'harga'=>$data['harga']
-        ];
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     */
+    public function show($id)
+    {
+        $detail = Barang::find($id);
+
         return view('barang.detail', compact('detail'));
     }
 
-    public function add(Request $request)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     */
+    public function edit($id)
     {
-        // Start validation
-        $request->validate([
-            'name' => 'required',
-            'deskripsi' => 'required',
-            'stok' => 'integer',
-            'harga' => 'integer'
-        ]);
+        $detail = Barang::find($id);
 
-        $listFromSession = session()->get('barang');
-        if (!$listFromSession) {
-            $listItem = collect($this->listItem);
-        } else {
-            $listItem = collect($listFromSession);
-        }
+        return view('barang.edit', compact('detail'));
+    }
 
-        $lastItem = $listItem->last();
-        // Remove all string to get the code number
-        $lastCode = preg_replace('/[^0-9]/', '', $lastItem['code']);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     */
+    public function update(Request $request, $id)
+    {
+        $barang = Barang::find($id);
+        $barang->code = $request->input('code');
+        $barang->name = $request->input('name');
+        $barang->deskripsi = $request->input('deskripsi');
+        $barang->stok = $request->input('stok');
+        $barang->harga = $request->input('harga');
+        $barang->save();
 
-        // Increment last code to get new code for new item
-        $newCode = (int)$lastCode + 1;
+        return \redirect('barang')->with('success', 'Ubah data berhasil');
+    }
 
-        $item = [
-            'code' => 'Brg_' . strval($newCode),
-            'name' => $request->name,
-            'deskripsi' => $request->deskripsi,
-            'stok' => $request->stok,
-            'harga' => $request->harga,
-        ];
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     */
+    public function destroy($id)
+    {
+        $barang = Barang::find($id);
+        $barang->delete();
 
-        $listItem->push($item);
-        $request->session()->put('barang', $listItem);
-
-        return Redirect::to('/barang');
+        return \redirect('barang')->with('success', 'Delete data berhasil');
     }
 }

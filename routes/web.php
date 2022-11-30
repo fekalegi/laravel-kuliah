@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\BarangController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Redirect;
@@ -16,13 +15,23 @@ use Illuminate\Support\Facades\Redirect;
 |
 */
 
-// Barang
-Route::get('barang', [BarangController::class, 'index']);
-Route::get('barang/detail/{code}', [BarangController::class, 'detail']);
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware'=>'auth'], function(){
+   Route::get('/',function() {
+        return view('home');
+   });
+
+   Route::resource('barang', BarangController::class);
+});
+
 Route::get('barang/add', function () {
     return view('barang.add');
 });
-Route::post('barang/post', [BarangController::class, 'add']);
+//Route::resource('barang', BarangController::class);
 
 // Pelanggan
 Route::get('pelanggan', [PelangganController::class, 'index']);
@@ -42,5 +51,5 @@ Route::post('supplier/post', [SupplierController::class, 'add']);
 
 // Set default route
 Route::get('/', function () {
-    return Redirect::to('barang');
+    return Redirect::to('home');
 });

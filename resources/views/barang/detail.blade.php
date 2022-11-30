@@ -6,16 +6,13 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-tools">
-                            <a href="{{ url('/barang') }}" class="btn btn-success btn-sm pull-right"><i
+                            <a href="{{ url('barang') }}" class="btn btn-success btn-sm pull-right"><i
                                     class="fa fa-pencil"></i> Kembali</a>
                         </div>
                     </div>
                     <div class="card-body">
                         <p></p>
                         <p></p>
-
-
-
                         <div class="list-group">
                             <div class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">

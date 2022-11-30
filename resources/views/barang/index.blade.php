@@ -28,17 +28,31 @@
                             </thead>
                             <tbody>
                             <?php
-                                $i = 1
+                            $i = 1
                             ?>
-                            @foreach($listItem as $key => $value)
+                            @foreach($listBarang as $key => $value)
                                 <tr>
                                     <th scope="row">{{ $i++ }}</th>
-                                    <td>{{ $value['code'] }}</td>
-                                    <td>{{ $value['name'] }}</td>
-                                    <td>{{ $value['deskripsi'] }}</td>
-                                    <td>{{ $value['stok'] }}</td>
-                                    <td>Rp. @convert($value['harga'])</td>
-                                    <td><a href="{{url('barang/detail/'.$value['code']) }}">View</a>
+                                    <td>{{ $value->code }}</td>
+                                    <td>{{ $value->name }}</td>
+                                    <td>{{ $value->deskripsi }}</td>
+                                    <td>{{ $value->stok }}</td>
+                                    <td>Rp. @convert($value->harga)</td>
+                                    <td>
+                                        <a href="{{url('barang/'.$value->id) }}">
+                                            <button type="button" class="btn btn-dark">View
+                                            </button>
+                                        </a>
+                                        <a href="{{url('barang/'.$value->id) .'/edit'}}">
+                                            <button type="button" class="btn btn-dark">Edit
+                                            </button>
+                                        </a>
+                                        <form method="POST" action={{url('barang/'.$value->id)}}>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-dark">Delete
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
