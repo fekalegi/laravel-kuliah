@@ -17,29 +17,39 @@
                             <div class="form-group">
                                 <label for="name" class="required">Kode Barang</label>
                                 @error('name')
+                                @if($errors->has('name'))
+                                    <span class="help-block">
+                                <strong>{{ $errors->first('name') }}</strong>
+                                </span>
+                                @endif
                                 <div class="error">{{ $message }}</div>
                                 @enderror
-                                <input type="text" class="form-control" id="code" name="code"  placeholder="Masukkan kode barang" required>
+                                <input type="text" class="form-control" id="code" name="code"
+                                       placeholder="Masukkan kode barang" required>
                                 <label for="name" class="required">Nama Barang</label>
                                 @error('name')
                                 <div class="error">{{ $message }}</div>
                                 @enderror
-                                <input type="text" class="form-control" id="name" name="name"  placeholder="Masukkan nama barang" required>
+                                <input type="text" class="form-control" id="name" name="name"
+                                       placeholder="Masukkan nama barang" required>
                                 <label for="deskripsi" class="required">Deskripsi</label>
                                 @error('deskripsi')
                                 <div class="error">{{ $message }}</div>
                                 @enderror
-                                <input type="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="Masukkan deskripsi barang" required>
+                                <input type="text" class="form-control" id="deskripsi" name="deskripsi"
+                                       placeholder="Masukkan deskripsi barang" required>
                                 <label for="stok">Stok</label>
                                 @error('stok')
                                 <div class="error">{{ $message }}</div>
                                 @enderror
-                                <input type="number" class="form-control" placeholder="Masukkan stok barang" name="stok" id="stok">
+                                <input type="number" class="form-control" placeholder="Masukkan stok barang" name="stok"
+                                       id="stok">
                                 <label for="harga">Harga</label>
                                 @error('harga')
                                 <div class="error">{{ $message }}</div>
                                 @enderror
-                                <input type="number" class="form-control" placeholder="Masukkan harga" name="harga" id="harga">
+                                <input type="number" class="form-control" placeholder="Masukkan harga" name="harga"
+                                       id="harga">
                             </div>
                             <button type="submit" class="form-control btn btn-primary">Submit</button>
                         </form>
@@ -49,4 +59,16 @@
             </div>
         </div>
     </div>
+@endsection
+@section('custom-js-css')
+    <script>
+        function validasi(data) {
+            if (data < 0) {
+                alert('Data input tidak boleh kurang dari 0');
+            }
+        }
+
+        jQuery(function ($) {
+        });
+    </script>
 @endsection

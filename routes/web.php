@@ -28,9 +28,7 @@ Route::group(['middleware'=>'auth'], function(){
    Route::resource('barang', BarangController::class);
 });
 
-Route::get('barang/add', function () {
-    return view('barang.add');
-});
+
 //Route::resource('barang', BarangController::class);
 
 // Pelanggan

@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="btn-add-new">
-                            <a href="{{url('barang/add')}}">
+                            <a href="{{url('barang/create')}}">
                                 <button type="button" class="btn btn-dark">Add New</button>
                             </a>
                         </div>
