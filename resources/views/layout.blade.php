@@ -27,6 +27,8 @@ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{
 asset('plugins/daterangepicker/daterangepicker.css') }}">
+
+    @stack('style')
     <style>
         .error{
             color: red;
@@ -92,25 +94,41 @@ asset('plugins/daterangepicker/daterangepicker.css') }}">
                     <li class="nav-item menu-open">
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ url('barang') }}" class="nav-link">
+                                <a href="{{ url('customer') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Barang</p>
+                                    <p>Customer</p>
                                 </a>
                             </li>
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ url('pelanggan') }}" class="nav-link">
+                                <a href="{{ url('produk') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Pelanggan</p>
+                                    <p>Produk</p>
                                 </a>
                             </li>
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ url('supplier') }}" class="nav-link">
+                                <a href="{{ url('vendor') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Supplier</p>
+                                    <p>Vendor</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ url('barangMasuk') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Barang Masuk</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ url('barangKeluar') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Barang Keluar</p>
                                 </a>
                             </li>
                         </ul>
@@ -192,5 +210,6 @@ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
 }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.js') }}"></script>
+@stack('scripts')
 </body>
 </html>

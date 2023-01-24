@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Barang;
+use App\Produk;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class BarangController extends Controller
+class ProdukController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +18,8 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $listBarang = Barang::where('stok', '>=', 15)->get();
-        return view('barang.index', compact('listBarang'));
+        $listProduk = Produk::get();
+        return view('produk.index', compact('listProduk'));
     }
 
     /**
@@ -28,7 +29,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        return view('barang.create');
+        return view('produk.create');
     }
 
     /**
@@ -40,25 +41,27 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $messages = [
-            'name.required' => 'Mohon isi nama produk terlebih dahulu',
-            'name.alpha_num' => 'Pastikan value yang diinput adalah alfabet dan numeric'
+            'nama_produk.required' => 'Mohon isi nama produk terlebih dahulu',
+            'nama_produk.alpha_num' => 'Pastikan value yang diinput adalah alfabet dan numeric',
+            'kode_produk.unique' => 'Kode produk duplikat, mohon isi kembali dengan kode yang berbeda'
         ];
         $validator = Validator::make($request->all(), [
-            'name' => 'required|alpha_num'
+            'kode_produk'=> 'required|unique:produk',
+            'nama_produk' => 'required|alpha_num'
         ], $messages);
         if ($validator->fails()) {
             $messages = $validator->messages();
             return Redirect::back()->withErrors($messages)->withInput($request->all());
         }
-        $barang = new Barang();
-        $barang->code = $request->input('code');
-        $barang->name = $request->input('name');
-        $barang->deskripsi = $request->input('deskripsi');
-        $barang->stok = $request->input('stok');
-        $barang->harga = $request->input('harga');
-        $barang->save();
+        $produk = new Produk();
+        $produk->kode_produk = $request->input('kode_produk');
+        $produk->nama_produk = $request->input('nama_produk');
+        $produk->stok = $request->input('stok');
+        $produk->harga = $request->input('harga');
+        $produk->created_by = Auth::user()->nim;
+        $produk->save();
 
-        return \redirect('barang')->with('success', 'Tambah data berhasil');
+        return \redirect('produk')->with('success', 'Tambah data berhasil');
     }
 
     /**
@@ -69,9 +72,9 @@ class BarangController extends Controller
      */
     public function show($id)
     {
-        $detail = Barang::find($id);
+        $detail = Produk::find($id);
 
-        return view('barang.detail', compact('detail'));
+        return view('produk.detail', compact('detail'));
     }
 
     /**
@@ -82,9 +85,9 @@ class BarangController extends Controller
      */
     public function edit($id)
     {
-        $detail = Barang::find($id);
+        $detail = Produk::find($id);
 
-        return view('barang.edit', compact('detail'));
+        return view('produk.edit', compact('detail'));
     }
 
     /**
@@ -96,15 +99,27 @@ class BarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $barang = Barang::find($id);
-        $barang->code = $request->input('code');
-        $barang->name = $request->input('name');
-        $barang->deskripsi = $request->input('deskripsi');
-        $barang->stok = $request->input('stok');
-        $barang->harga = $request->input('harga');
-        $barang->save();
+        $messages = [
+            'nama_produk.required' => 'Mohon isi nama produk terlebih dahulu',
+            'nama_produk.alpha_num' => 'Pastikan value yang diinput adalah alfabet dan numeric',
+            'kode_produk.unique' => 'Kode produk duplikat, mohon isi kembali dengan kode yang berbeda'
+        ];
+        $validator = Validator::make($request->all(), [
+            'kode_produk'=> 'required|unique:produk',
+            'nama_produk' => 'required|alpha_num'
+        ], $messages);
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            return Redirect::back()->withErrors($messages)->withInput($request->all());
+        }
+        $produk = Produk::find($id);
+        $produk->kode_produk = $request->input('kode_produk');
+        $produk->nama_produk = $request->input('nama_produk');
+        $produk->stok = $request->input('stok');
+        $produk->harga = $request->input('harga');
+        $produk->save();
 
-        return \redirect('barang')->with('success', 'Ubah data berhasil');
+        return \redirect('produk')->with('success', 'Ubah data berhasil');
     }
 
     /**
@@ -115,9 +130,9 @@ class BarangController extends Controller
      */
     public function destroy($id)
     {
-        $barang = Barang::find($id);
-        $barang->delete();
+        $produk = Produk::find($id);
+        $produk->delete();
 
-        return \redirect('barang')->with('success', 'Delete data berhasil');
+        return \redirect('produk')->with('success', 'Delete data berhasil');
     }
 }

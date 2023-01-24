@@ -6,40 +6,34 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-tools">
-                            <a href="{{ url('/barang') }}" class="btn btn-success btn-sm pull-right"><i
+                            <a href="{{ url('/produk') }}" class="btn btn-success btn-sm pull-right"><i
                                     class="fa fa-pencil"></i> Kembali</a>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{url('barang/'.$detail->id)}}">
+                        <form method="POST" action="{{url('produk/'.$detail->id)}}">
                             @csrf
                             @method('PUT')
                             <h1>Form Insert</h1>
                             <div class="form-group">
-                                <label for="name" class="required">Kode Barang</label>
-                                @error('name')
+                                <label for="kode_produk" class="required">Kode Produk</label>
+                                @error('kode_produk')
                                 <div class="error">{{ $message }}</div>
                                 @enderror
-                                <input type="hidden" class="form-control" id="code" name="code"  value={{$detail->id}}>
-                                <input type="text" class="form-control" id="code" name="code"  placeholder="Masukkan kode barang" value={{$detail->code}} required>
+                                <input type="hidden" class="form-control" id="kode_produk" name="kode_produk"  value={{$detail->kode_produk}}>
+                                <input type="text" class="form-control" id="kode_produk" name="kode_produk"  placeholder="Masukkan kode produk" value={{$detail->kode_produk}} required>
 
-                                <label for="name" class="required">Nama Barang</label>
-                                @error('name')
+                                <label for="nama_produk" class="required">Nama Produk</label>
+                                @error('nama_produk')
                                 <div class="error">{{ $message }}</div>
                                 @enderror
-                                <input type="text" class="form-control" id="name" name="name"  placeholder="Masukkan nama barang" value={{$detail->name}} required>
-
-                                <label for="deskripsi" class="required">Deskripsi</label>
-                                @error('deskripsi')
-                                <div class="error">{{ $message }}</div>
-                                @enderror
-                                <input type="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="Masukkan deskripsi barang" value={{$detail->deskripsi}} required>
+                                <input type="text" class="form-control" id="nama_produk" name="nama_produk"  placeholder="Masukkan nama produk" value={{$detail->nama_produk}} required>
 
                                 <label for="stok">Stok</label>
                                 @error('stok')
                                 <div class="error">{{ $message }}</div>
                                 @enderror
-                                <input type="number" class="form-control" placeholder="Masukkan stok barang" name="stok" value={{$detail->stok}} id="stok">
+                                <input type="number" class="form-control" placeholder="Masukkan stok produk" name="stok" value={{$detail->stok}} id="stok">
 
                                 <label for="harga">Harga</label>
                                 @error('harga')

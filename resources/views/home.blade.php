@@ -14,8 +14,14 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    You are logged in! <br>
+                        <a href="{{url('produk')}}">
+                            <button type="submit" class="btn btn-primary">
+                                Page Product
+                            </button>
+                        </a>
                 </div>
+
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="btn-add-new">
-                            <a href="{{url('pelanggan/add')}}">
+                            <a href="{{url('barangMasuk/create')}}">
                                 <button type="button" class="btn btn-dark">Add New</button>
                             </a>
                         </div>
@@ -18,23 +18,27 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Pelanggan</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Alamat</th>
-                                <th scope="col">Nama Kota</th>
-                                <th scope="col">Action</th>
+                                <th scope="col">No Transaksi</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Vendor</th>
+                                <th scope="col">Barang</th>
+                                <th scope="col">Jumlah Barang</th>
+                                <th scope="col">Harga Barang</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($listItem as $key => $value)
+                            <?php
+                            $i = 1
+                            ?>
+                            @foreach($listBarangMasuk as $key => $value)
                                 <tr>
-                                    <th scope="row">{{ $key+1 }}</th>
-                                    <td>{{ $value['code'] }}</td>
-                                    <td>{{ $value['name'] }}</td>
-                                    <td>{{ $value['alamat'] }}</td>
-                                    <td>{{ $value['nama_kota'] }}</td>
-                                    <td><a href="{{url('pelanggan/detail/'.$value['code']) }}">View</a>
-                                    </td>
+                                    <th scope="row">{{ $i++ }}</th>
+                                    <td>{{ $value->no_transaksi }}</td>
+                                    <td>{{ $value->tanggal }}</td>
+                                    <td>{{ $value->nama_vendor }}</td>
+                                    <td>{{ $value->nama_produk }}</td>
+                                    <td>{{ $value->jumlah_barang }}</td>
+                                    <td>Rp. @convert($value->harga_barang)</td>
                                 </tr>
                             @endforeach
                             </tbody>

@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\PelangganController;
-use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Redirect;
 
 /*
@@ -25,27 +23,12 @@ Route::group(['middleware'=>'auth'], function(){
         return view('home');
    });
 
-   Route::resource('barang', BarangController::class);
+    Route::resource('produk', ProdukController::class);
+    Route::resource('customer', CustomerController::class);
+    Route::resource('vendor', VendorController::class);
+    Route::resource('barangMasuk', BarangMasukController::class);
+    Route::resource('barangKeluar', BarangKeluarController::class);
 });
-
-
-//Route::resource('barang', BarangController::class);
-
-// Pelanggan
-Route::get('pelanggan', [PelangganController::class, 'index']);
-Route::get('pelanggan/detail/{code}', [PelangganController::class, 'detail']);
-Route::get('pelanggan/add', function () {
-    return view('pelanggan.add');
-});
-Route::post('pelanggan/post', [PelangganController::class, 'add']);
-
-// Supplier
-Route::get('supplier', [SupplierController::class, 'index']);
-Route::get('supplier/detail/{code}', [SupplierController::class, 'detail']);
-Route::get('supplier/add', function () {
-    return view('supplier.add');
-});
-Route::post('supplier/post', [SupplierController::class, 'add']);
 
 // Set default route
 Route::get('/', function () {
